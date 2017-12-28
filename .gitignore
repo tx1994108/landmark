@@ -1,0 +1,15 @@
+
+*.zip
+*.pyc
+
+*.log
+*.csv
+*.png
+
+*.caffemodel
+*.solverstate
+*.txt
+*.prototxt
+
+*.jpg
+*.h5

@@ -9,6 +9,24 @@ import numpy as np
 
 
 
+def processImage(imgs):
+    """
+        process images before feeding to CNNs
+        imgs: N x 1 x W x H
+    """
+    imgs = imgs.astype(np.float32)   # 实现变量类型转换：
+
+    for i, img in enumerate(imgs):
+        print(i,img)
+        m = img.mean()  # 表示对整个二维数组的平均，即全部加起来除以个数
+        print(m)
+        s = img.std()  # 求标准差
+        print(s)
+        imgs[i] = (img - m) / s
+        print(imgs[i])
+
+    return imgs
+
 class BBox(object):
     """
         Bounding Box of face
@@ -121,7 +139,7 @@ for i in range(len(result)):
     cv2.line(img, (bbox.left, bbox.top), (bbox.left, bbox.bottom),(255, 0, 0), 3)
     cv2.line(img, (bbox.right, bbox.top),(bbox.right,bbox.bottom),(255, 0, 0),3)
     cv2.line(img, (bbox.left, bbox.bottom),(bbox.right, bbox.bottom),(255,0, 0),3)
-    cv2.imshow('image1', img)
+    #cv2.imshow('image1', img)
 
 
 f_bbox = bbox.subBBox(-0.05, 1.05, -0.05, 1.05)
@@ -130,20 +148,27 @@ cv2.line(img, (bbox.left, bbox.top), (bbox.right, bbox.top), (255, 0, 0), 3)
 cv2.line(img, (bbox.left, bbox.top), (bbox.left, bbox.bottom),(255, 0, 0), 3)
 cv2.line(img, (bbox.right, bbox.top),(bbox.right,bbox.bottom),(255, 0, 0),3)
 cv2.line(img, (bbox.left, bbox.bottom),(bbox.right, bbox.bottom),(255,0, 0),3)
-cv2.imshow('image2', img)
+#cv2.imshow('image2', img)
 
 f_face = img[int(f_bbox.top):int(f_bbox.bottom+1),int(f_bbox.left):int(f_bbox.right+1)]
 print(f_bbox.top,' ',f_bbox.bottom+1,' ',f_bbox.left,' ',f_bbox.right+1 )
 print(f_face.shape)
-cv2.imshow('image3', f_face)
+#cv2.imshow('image3', f_face)
 # cv2.waitKey(0)
 f_face = cv2.resize(f_face, (39, 39))
-cv2.imshow('image4', f_face)
-cv2.waitKey(0)
+#cv2.imshow('image4', f_face)
 
-
-# en_face = f_face[:31, :]
-# nm_face = f_face[8:, :]
+en_face = f_face[:31, :]
+print(en_face.shape)
+#cv2.imshow('image5', en_face)
+#cv2.waitKey(0)
+nm_face = f_face[8:, :]
+print(nm_face.shape)
+#cv2.imshow('image6', nm_face)
+#cv2.waitKey(0)
+f_face = f_face.reshape((1, 1, 39, 39))
+print(f_face.shape)
+f_face = processImage(f_face)
 
 
 

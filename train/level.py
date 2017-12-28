@@ -5,7 +5,7 @@
 """
 
 import os, sys
-import multiprocessing
+import multiprocessing  #多进程包
 
 
 pool_on = False

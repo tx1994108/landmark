@@ -142,7 +142,7 @@ if __name__ == '__main__':
         failure[3], failure[4])
     print s
 
-    logfile = 'log/{0}.log'.format(nameMapper[level])
+    logfile = 'log/{0}.log'.format(nameMapper[level]) #用format里面的取代{}里面的
     with open(logfile, 'w') as fd:
         fd.write(s)
 

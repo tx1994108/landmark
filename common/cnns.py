@@ -12,7 +12,7 @@ class CNN(object):
     def __init__(self, net, model):
         self.net = net
         self.model = model
-        try:
+        try:     #防止异常中断
             self.cnn = caffe.Net(str(net), str(model), caffe.TEST)
         except:
             # silence

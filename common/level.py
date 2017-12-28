@@ -20,7 +20,7 @@ def level1(img, bbox, FOnly=True):
     en_face = f_face[:31, :]
     nm_face = f_face[8:, :]
 
-    f_face = f_face.reshape((1, 1, 39, 39))
+    f_face = f_face.reshape((1, 1, 39, 39)) # 4维
     f_face = processImage(f_face)
     f = F.forward(f_face)
     if FOnly:

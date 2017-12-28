@@ -82,7 +82,7 @@ def getPatch(img, bbox, point, padding):
     return patch, patch_bbox
 
 
-def processImage(imgs):
+def processImage(imgs):      #归一化操作
     """
         process images before feeding to CNNs
         imgs: N x 1 x W x H

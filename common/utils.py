@@ -89,9 +89,11 @@ def processImage(imgs):      #归一化操作
     """
     imgs = imgs.astype(np.float32)   # 实现变量类型转换：
     for i, img in enumerate(imgs):
-        m = img.mean()  # 表示对整个二维数组的平均，即全部加起来除以个数
-        s = img.std()  # 求标准差
+        # m = img.mean()  # 表示对整个二维数组的平均，即全部加起来除以个数
+        # s = img.std()  # 求标准差
         imgs[i] = (img - m) / s
+        # imgs[i] = (img - 127.5) / 255
+
     return imgs
 
 def dataArgument(data):

@@ -6,6 +6,7 @@ from os.path import join, exists
 import time
 import cv2
 import numpy as np
+import matplotlib.pyplot as plt
 
 
 
@@ -17,13 +18,13 @@ def processImage(imgs):
     imgs = imgs.astype(np.float32)   # 实现变量类型转换：
 
     for i, img in enumerate(imgs):
-        print(i,img)
+       # print(i,img)
         m = img.mean()  # 表示对整个二维数组的平均，即全部加起来除以个数
-        print(m)
+        print('tx_test1_m : ',m)
         s = img.std()  # 求标准差
-        print(s)
+        print('tx_test1_s : ', s)
         imgs[i] = (img - m) / s
-        print(imgs[i])
+       # print(imgs[i])
 
     return imgs
 
@@ -126,14 +127,14 @@ print (len(result))
 
 print (result)
 error = np.zeros((len(result), 5))
-print(error)
+#print(error)
 
 
 for i in range(len(result)):
     imgPath, bbox, landmarkGt = result[i]
-    print (result)
+   # print (result)
     img = cv2.imread(imgPath, cv2.IMREAD_GRAYSCALE)
-    print(img.shape)
+    #print(img.shape)
     # print(result[i])
     cv2.line(img, (bbox.left, bbox.top), (bbox.right, bbox.top), (255, 0, 0), 3)
     cv2.line(img, (bbox.left, bbox.top), (bbox.left, bbox.bottom),(255, 0, 0), 3)
@@ -151,26 +152,47 @@ cv2.line(img, (bbox.left, bbox.bottom),(bbox.right, bbox.bottom),(255,0, 0),3)
 #cv2.imshow('image2', img)
 
 f_face = img[int(f_bbox.top):int(f_bbox.bottom+1),int(f_bbox.left):int(f_bbox.right+1)]
-print(f_bbox.top,' ',f_bbox.bottom+1,' ',f_bbox.left,' ',f_bbox.right+1 )
-print(f_face.shape)
+#print(f_bbox.top,' ',f_bbox.bottom+1,' ',f_bbox.left,' ',f_bbox.right+1 )
+#print(f_face.shape)
 #cv2.imshow('image3', f_face)
 # cv2.waitKey(0)
-f_face = cv2.resize(f_face, (39, 39))
-#cv2.imshow('image4', f_face)
+f_face = cv2.resize(f_face, (39, 39))         #正脸！！！！！
+# print(f_face)
+# cv2.imshow('image4', f_face)
+# cv2.waitKey(0)
 
 en_face = f_face[:31, :]
-print(en_face.shape)
-#cv2.imshow('image5', en_face)
+# cv2.imshow('image3', en_face)          #   眼睛鼻子
+# en_face = cv2.resize(en_face, (31, 39))
+# cv2.imshow('image4', en_face)
 #cv2.waitKey(0)
-nm_face = f_face[8:, :]
-print(nm_face.shape)
-#cv2.imshow('image6', nm_face)
+nm_face = f_face[8:, :]         # 鼻子嘴巴
+#print(nm_face.shape)
+cv2.imshow('image6', nm_face)
 #cv2.waitKey(0)
 f_face = f_face.reshape((1, 1, 39, 39))
-print(f_face.shape)
+# print(f_face.shape)
+
+
 f_face = processImage(f_face)
+# print(f_face)                     #正脸做过处理
+# print(f_face.shape)
+# a=f_face[0][0]
+# print(a)
+# cv2.imshow('image5', a)
+# cv2.waitKey(0)
 
+# en_face = cv2.resize(en_face, (31, 39)).reshape((1, 1, 31, 39))    #眼睛鼻子做过处理
+# en_face = processImage(en_face)
+# b=en_face[0][0]
+# print(b)
+# print(b.shape)
+# cv2.imshow('image5', b)
+# cv2.waitKey(0)
 
-
-
+nm_face = cv2.resize(nm_face, (31, 39)).reshape((1, 1, 31, 39))
+nm_face = processImage(nm_face)
+c=nm_face[0][0]
+cv2.imshow('image5', c)
+cv2.waitKey(0)
 

@@ -140,7 +140,8 @@ for i in range(len(result)):
     cv2.line(img, (bbox.left, bbox.top), (bbox.left, bbox.bottom),(255, 0, 0), 3)
     cv2.line(img, (bbox.right, bbox.top),(bbox.right,bbox.bottom),(255, 0, 0),3)
     cv2.line(img, (bbox.left, bbox.bottom),(bbox.right, bbox.bottom),(255,0, 0),3)
-    #cv2.imshow('image1', img)
+    cv2.imshow('image1', img)
+    cv2.waitKey(0)
 
 
 f_bbox = bbox.subBBox(-0.05, 1.05, -0.05, 1.05)

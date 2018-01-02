@@ -32,12 +32,7 @@ def drawLandmark(img, bbox, landmark):
     return img
 
 def getDataFromTxt(txt, with_landmark=True):
-    """
-        Generate data from txt file
-        return [(img_path, bbox, landmark)]
-            bbox: [left, right, top, bottom]
-            landmark: [(x1, y1), (x2, y2), ...]
-    """
+
     dirname = os.path.dirname(txt)  # 获取当前运行脚本的绝对路径
     with open(txt, 'r') as fd:
         lines = fd.readlines()

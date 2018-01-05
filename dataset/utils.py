@@ -39,7 +39,7 @@ def flip(face, landmark):
     """
         flip face
     """
-    face_flipped_by_x = cv2.flip(face, 1)
+    face_flipped_by_x = cv2.flip(face, 1) # 关于Y对称
     landmark_ = np.asarray([(1-x, y) for (x, y) in landmark])
     landmark_[[0, 1]] = landmark_[[1, 0]]
     landmark_[[3, 4]] = landmark_[[4, 3]]

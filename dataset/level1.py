@@ -43,9 +43,10 @@ def generate_hdf5(ftxt, output, fname, argument=False):
         f_face = img[f_bbox.top:f_bbox.bottom+1,f_bbox.left:f_bbox.right+1]
 
         ## data argument
-        if argument and np.random.rand() > -1:
+        if argument and np.random.rand() > -1: # argument 传入的是ture
+            # numpy.random.rand(d0, d1, …, dn)的随机样本位于[0, 1)中。
             ### flip
-            face_flipped, landmark_flipped = flip(f_face, landmarkGt)
+            face_flipped, landmark_flipped = flip(f_face, landmarkGt) # flip 在utils 里面
             face_flipped = cv2.resize(face_flipped, (39, 39))
             F_imgs.append(face_flipped.reshape((1, 39, 39)))
             F_landmarks.append(landmark_flipped.reshape(10))
@@ -164,7 +165,7 @@ def generate_hdf5(ftxt, output, fname, argument=False):
 
 if __name__ == '__main__':
     # train data
-    train_txt = join(TRAIN, 'trainImageList.txt')
+    train_txt = join(TRAIN, 'trainImageList.txt')    #连接字符串，形成一个新的
     generate_hdf5(train_txt, OUTPUT, 'train.h5', argument=True)
 
     test_txt = join(TRAIN, 'testImageList.txt')

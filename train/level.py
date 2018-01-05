@@ -35,14 +35,14 @@ def train(level=1):
         os.system(cmd)
         cmd = 'caffe train --solver prototxt/{0}_{1}_solver.prototxt'.format(level, t)
         # w(os.system(cmd))
-        cmds.append('caffe train --solver prototxt/{0}_{1}_solver.prototxt'.format(level, t))
+        cmds.append('caffe train --solver prototxt/{0}_{1}_solver.prototxt'.format(level, t)) # 加入后》1就可以调用
     # we train level-2 and level-3 with mutilprocess (we may train two level in parallel)
-    if level > 1 and pool_on:
+    if level > 1 and pool_on:    #并行
         pool_size = 3
         pool = multiprocessing.Pool(processes=pool_size, maxtasksperchild=2)
         pool.map(runCommand, cmds)
-        pool.close()
-        pool.join()
+        pool.close()   #关闭进程池
+        pool.join()    #join()方法表示等待子进程结束以后再继续往下运行，通常用于进程间的同步。
     else:
         for cmd in cmds:
             runCommand(cmd)

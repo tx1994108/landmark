@@ -141,7 +141,7 @@ for i in range(len(result)):
     cv2.line(img, (bbox.right, bbox.top),(bbox.right,bbox.bottom),(255, 0, 0),3)
     cv2.line(img, (bbox.left, bbox.bottom),(bbox.right, bbox.bottom),(255,0, 0),3)
     cv2.imshow('image1', img)
-    cv2.waitKey(0)
+
 
 
 f_bbox = bbox.subBBox(-0.05, 1.05, -0.05, 1.05)
@@ -153,10 +153,16 @@ cv2.line(img, (bbox.left, bbox.bottom),(bbox.right, bbox.bottom),(255,0, 0),3)
 #cv2.imshow('image2', img)
 
 f_face = img[int(f_bbox.top):int(f_bbox.bottom+1),int(f_bbox.left):int(f_bbox.right+1)]
+cv2.imshow('image3', f_face)
+face_flipped_by_x = cv2.flip(f_face, 1)
+
+# landmark_ = np.asarray([(1 - x, y) for (x, y) in landmark])              # 输出图形 旋转变换后的。。。
+# print('landmark:',landmark,     '\n'  ,         'landmark_',landmark_)
+
 #print(f_bbox.top,' ',f_bbox.bottom+1,' ',f_bbox.left,' ',f_bbox.right+1 )
 #print(f_face.shape)
-#cv2.imshow('image3', f_face)
-# cv2.waitKey(0)
+cv2.imshow('image4', face_flipped_by_x)
+cv2.waitKey(0)
 f_face = cv2.resize(f_face, (39, 39))         #正脸！！！！！
 # print(f_face)
 # cv2.imshow('image4', f_face)
@@ -169,7 +175,7 @@ en_face = f_face[:31, :]
 #cv2.waitKey(0)
 nm_face = f_face[8:, :]         # 鼻子嘴巴
 #print(nm_face.shape)
-cv2.imshow('image6', nm_face)
+# cv2.imshow('image6', nm_face)
 #cv2.waitKey(0)
 f_face = f_face.reshape((1, 1, 39, 39))
 # print(f_face.shape)
@@ -194,6 +200,6 @@ f_face = processImage(f_face)
 nm_face = cv2.resize(nm_face, (31, 39)).reshape((1, 1, 31, 39))
 nm_face = processImage(nm_face)
 c=nm_face[0][0]
-cv2.imshow('image5', c)
-cv2.waitKey(0)
+# cv2.imshow('image5', c)
+# cv2.waitKey(0)
 

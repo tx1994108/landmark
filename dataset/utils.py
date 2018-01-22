@@ -41,7 +41,7 @@ def flip(face, landmark):
     """
     face_flipped_by_x = cv2.flip(face, 1) # 关于Y对称
     landmark_ = np.asarray([(1-x, y) for (x, y) in landmark])
-    landmark_[[0, 1]] = landmark_[[1, 0]]
+    landmark_[[0, 1]] = landmark_[[1, 0]]    # 因为关于y 对称了，所以坐标换一下
     landmark_[[3, 4]] = landmark_[[4, 3]]
     return (face_flipped_by_x, landmark_)
 

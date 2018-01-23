@@ -9,7 +9,7 @@ import numpy as np
 
 
 
-
+#---------------------------------------------------------------------------------------------------------------------------------------------------
 def processImage(imgs):
     """
         process images before feeding to CNNs
@@ -27,7 +27,7 @@ def processImage(imgs):
        # print(imgs[i])
 
     return imgs
-
+#---------------------------------------------------------------------------------------------------------------------------------------------------
 class BBox(object):
     """
         Bounding Box of face
@@ -92,8 +92,8 @@ class BBox(object):
 
         return BBox([left, right, top, bottom])
 
-
-#--------------------------------------------------------------------------
+                                                                                   #   read   data
+#----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 with open('C:\\Users\\Administrator\\Desktop\\11.txt', 'r') as fd:
     lines = fd.readlines()
     #print (lines)
@@ -123,13 +123,15 @@ for line in lines:
             landmark[index] = rv
             # print (landmark[index])
 result.append(("C:\\Users\\Administrator\\Desktop\\Aaron_Eckhart_0001.jpg",BBox(bbox),landmark))
-print (len(result))
+#--------------------------------------------------------------------------------------------------------------------------#---------------------------------------------------
 
-print (result)
-error = np.zeros((len(result), 5))
-#print(error)
+# print (len(result))
+# print (result)
+# error = np.zeros((len(result), 5))
+# print(error)
 
-
+                                                                          #人脸
+#--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 for i in range(len(result)):
     imgPath, bbox, landmarkGt = result[i]
    # print (result)
@@ -140,66 +142,104 @@ for i in range(len(result)):
     cv2.line(img, (bbox.left, bbox.top), (bbox.left, bbox.bottom),(255, 0, 0), 3)
     cv2.line(img, (bbox.right, bbox.top),(bbox.right,bbox.bottom),(255, 0, 0),3)
     cv2.line(img, (bbox.left, bbox.bottom),(bbox.right, bbox.bottom),(255,0, 0),3)
-    cv2.imshow('image1', img)
+    #cv2.imshow('image1', img)
+
+#--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
+                                                         #人脸框做了一些处理
+#--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 f_bbox = bbox.subBBox(-0.05, 1.05, -0.05, 1.05)
+f_bbox.left=int(f_bbox.left)
+f_bbox.top=int(f_bbox.top)
+f_bbox.right=int(f_bbox.right)
+f_bbox.bottom=int(f_bbox.bottom)
+cv2.line(img, (f_bbox.left, f_bbox.top), (f_bbox.right, f_bbox.top), (255, 0, 0), 3)
+cv2.line(img, (f_bbox.left, f_bbox.top), (f_bbox.left, f_bbox.bottom),(255, 0, 0), 3)
+cv2.line(img, (f_bbox.right, f_bbox.top),(f_bbox.right,f_bbox.bottom),(255, 0, 0),3)
+cv2.line(img, (f_bbox.left, f_bbox.bottom),(f_bbox.right, f_bbox.bottom),(255,0, 0),3)
+# cv2.imshow('image2', img)
+# cv2.waitKey(0)
+#--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-cv2.line(img, (bbox.left, bbox.top), (bbox.right, bbox.top), (255, 0, 0), 3)
-cv2.line(img, (bbox.left, bbox.top), (bbox.left, bbox.bottom),(255, 0, 0), 3)
-cv2.line(img, (bbox.right, bbox.top),(bbox.right,bbox.bottom),(255, 0, 0),3)
-cv2.line(img, (bbox.left, bbox.bottom),(bbox.right, bbox.bottom),(255,0, 0),3)
-#cv2.imshow('image2', img)
 
+
+
+                                                                            # 人脸切片
+#---------------------------------------------------------------------------------------------------------------------------------------------------
 f_face = img[int(f_bbox.top):int(f_bbox.bottom+1),int(f_bbox.left):int(f_bbox.right+1)]
-
-cv2.imshow('image3', f_face)
-face_flipped_by_x = cv2.flip(f_face, 1)
-landmark_ = np.asarray([(1 - x, y) for (x, y) in landmark])              # 输出图形 旋转变换后的。。。
-print('landmark:',landmark,     '\n'  ,         'landmark_',landmark_)
-
-#print(f_bbox.top,' ',f_bbox.bottom+1,' ',f_bbox.left,' ',f_bbox.right+1 )
-#print(f_face.shape)
-cv2.imshow('image4', face_flipped_by_x)
-cv2.waitKey(0)
-f_face = cv2.resize(f_face, (39, 39))         #正脸！！！！！
-# print(f_face)
-# cv2.imshow('image4', f_face)
+#cv2.imshow('image3', f_face)
+# cv2.waitKey(0)
+f_face = cv2.resize(f_face, (39, 39))
+#cv2.imshow('image4', f_face)
 # cv2.waitKey(0)
 
+#--------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+                                                                          # 眼睛鼻子
+#---------------------------------------------------------------------------------------------------------------------------------------------------------
 en_face = f_face[:31, :]
-# cv2.imshow('image3', en_face)          #   眼睛鼻子
-# en_face = cv2.resize(en_face, (31, 39))
-# cv2.imshow('image4', en_face)
+#cv2.imshow('image6', en_face)
 #cv2.waitKey(0)
-nm_face = f_face[8:, :]         # 鼻子嘴巴
+en_face = cv2.resize(en_face, (31, 39))
+#cv2.imshow('image7', en_face)
+#cv2.waitKey(0)
+#-------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+                                                                      # 鼻子嘴巴
+#------------------------------------------------------------------------------------------------------------------------------
+nm_face = f_face[8:, :]
 #print(nm_face.shape)
-# cv2.imshow('image6', nm_face)
+#cv2.imshow('image8', nm_face)
 #cv2.waitKey(0)
 f_face = f_face.reshape((1, 1, 39, 39))
 # print(f_face.shape)
+#------------------------------------------------------------------------------------------------------------------------------
 
 
+
+                                                                     #正脸做过处理
+#------------------------------------------------------------------------------------------------------------------------------
 f_face = processImage(f_face)
-# print(f_face)                     #正脸做过处理
+# print(f_face)
 # print(f_face.shape)
 # a=f_face[0][0]
 # print(a)
 # cv2.imshow('image5', a)
 # cv2.waitKey(0)
+#------------------------------------------------------------------------------------------------------------------------------
 
-# en_face = cv2.resize(en_face, (31, 39)).reshape((1, 1, 31, 39))    #眼睛鼻子做过处理
+
+
+                                                                    #眼睛鼻子做过处理
+#------------------------------------------------------------------------------------------------------------------------------
+# en_face = cv2.resize(en_face, (31, 39)).reshape((1, 1, 31, 39))
 # en_face = processImage(en_face)
 # b=en_face[0][0]
 # print(b)
 # print(b.shape)
 # cv2.imshow('image5', b)
 # cv2.waitKey(0)
+#------------------------------------------------------------------------------------------------------------------------------
 
-nm_face = cv2.resize(nm_face, (31, 39)).reshape((1, 1, 31, 39))
-nm_face = processImage(nm_face)
-c=nm_face[0][0]
-# cv2.imshow('image5', c)
+
+
+
+
+                                                                #   关于Y对称
+# -----------------------------------------------------------------------------------------------------------------------------------------------------
+face_flipped_by_x = cv2.flip(f_face, 1)
+landmark_ = np.asarray([(1 - x, y) for (x, y) in landmark])              # 输出图形 旋转变换后的。。。
+print('landmark:',landmark,     '\n'  ,         'landmark_',landmark_)
+#cv2.imshow('image5', face_flipped_by_x)
 # cv2.waitKey(0)
+#-------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
 
